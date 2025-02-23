@@ -35,7 +35,7 @@ def connect_wifi():
     while not wlan.isconnected() and timeout > 0:
         time.sleep(1)
         timeout -= 1
-    
+
     if wlan.isconnected():
         print("Terhubung ke WiFi!")
     else:
@@ -57,7 +57,7 @@ def send_to_ubidots(temp, hum, air_quality, motion):
         response.close()
     except Exception as e:
         print("Gagal mengirim data ke Ubidots:", e)
-    
+
 # Kirim Data ke FLask
 def send_to_flask(temp, hum, air_quality, motion):
     payload = ujson.dumps({"temperature": temp, "humidity": hum, "air_quality": air_quality, "motion": motion})
@@ -76,7 +76,12 @@ sensor_mq135 = ADC(Pin(MQ135_PIN))
 sensor_mq135.atten(ADC.ATTN_11DB)
 sensor_pir = Pin(PIR_PIN, Pin.IN)
 
-while True: 
+prev_temp = None
+prev_hum = None
+prev_air_quality = None
+prev_motion = None
+
+while True:
     try:
         # DHT11 Sensor
         temp, hum, air_quality, motion = None, None, None, None
@@ -92,12 +97,19 @@ while True:
         # MQ-135 Sensor
         air_quality = sensor_mq135.read()
         air_quality = (air_quality / 4095) * 100
-        
+
         #Pir Sensor
         motion = sensor_pir.value()
-        print(f"Suhu: {temp}°C, Kelembaban: {hum}%, Kualitas Udara: {air_quality}%, Gerakan: {motion}")
-        send_to_ubidots(temp, hum, air_quality, motion)
-        send_to_flask(temp, hum, air_quality, motion)
+
+        if (prev_temp != temp or prev_hum != hum or prev_air_quality != air_quality or prev_motion != motion):
+            print(f"Suhu: {temp}°C, Kelembaban: {hum}%, Kualitas Udara: {air_quality}%, Gerakan: {motion}")
+            send_to_ubidots(temp, hum, air_quality, motion)
+            send_to_flask(temp, hum, air_quality, motion)
+
+        prev_temp = temp
+        prev_hum = hum
+        prev_air_quality = air_quality
+        prev_motion = motion
     except Exception as e:
         print("Error:", e)
 
