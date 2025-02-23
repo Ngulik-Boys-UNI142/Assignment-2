@@ -20,7 +20,7 @@ def data():
         humidity = data.get('humidity')
         air_quality = data.get('air_quality')
         motion = data.get('motion')
-        
+
         data_sensor = {
             'temperature': temperature,
             'humidity': humidity,
@@ -28,12 +28,12 @@ def data():
             'motion': motion,
             'timestamp': datetime.now()
         }
-        
+
         collection.insert_one(data_sensor)
-        
+
         return jsonify({'message': 'Data saved successfully'}), 201
     except Exception as e:
         return str(e), 500
 
-if __name__ == '__main__': 
-    app.run(host='0.0.0.0', port=5000, debug=True) 
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000, debug=True)
