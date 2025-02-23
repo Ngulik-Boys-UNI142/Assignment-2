@@ -6,8 +6,8 @@ import dht
 from machine import Pin, ADC
 
 # Konfigurasi Wifi
-SSID = "Toko Kopi Jaya Ijen Lt 1"
-PASSWORD = "Berjayabersama"
+SSID = "************"
+PASSWORD = "************"
 
 # Konfigurasi Ubidots
 TOKEN = "BBUS-reJzd1NY4DgL646T8huuohOVENRTrY"
