@@ -18,7 +18,7 @@ VARIABLE_AIR = "air_quality"
 VARIABLE_PIR = "motion"
 
 # Konfigurasi Flask
-FLASK_SERVER_URL = "http://192.168.18.116:5000/data"
+FLASK_SERVER_URL = "http://192.168.18.116:5000/insert/data"
 
 # PIN SENSOR
 DHT_PIN = 5
