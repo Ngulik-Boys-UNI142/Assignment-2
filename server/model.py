@@ -5,12 +5,12 @@ from datetime import datetime
 import os
 
 class Model():
-    def _init_(self):
+    def __init__(self):
         load_dotenv()
         self.__client = MongoClient(os.getenv('CLIENT'),  server_api=ServerApi('1'))
         try:
-            self._database = self._client.get_database(os.getenv('DATABASE'))
-            self._collection = self._database.get_collection(os.getenv('COLLECTION'))
+            self.__database = self.__client.get_database(os.getenv('DATABASE'))
+            self.__collection = self.__database.get_collection(os.getenv('COLLECTION'))
         except Exception as e:
             print(f'Error: {e}')
 
